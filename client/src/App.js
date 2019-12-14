@@ -6,16 +6,11 @@ import Homepage from './components/Homepage';
 import List from './components/List';
 //import Connection from './Connection'
 
-state = {
-  name: "test_user",
-  assets: []
-}
-
 function App() {
   return (
     <Router>
       <Header/>
-      <Route exact path='/' component={Home}/>
+      <Route exact path='/' component={Homepage}/>
       <Route path='/list' component={List}/>
     </Router>
   );
