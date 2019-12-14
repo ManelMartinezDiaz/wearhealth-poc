@@ -1,19 +1,26 @@
-import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import React, { Component } from 'react';
+import { Route, Switch } from 'react-router-dom';
 import './App.css';
-import Header from './components/Header';
-import Homepage from './components/Homepage';
-import List from './components/List';
-//import Connection from './Connection'
+import Home from './pages/Home';
+import List from './pages/List';
 
-function App() {
-  return (
-    <Router>
-      <Header/>
-      <Route exact path='/' component={Homepage}/>
-      <Route path='/list' component={List}/>
-    </Router>
-  );
+class App extends Component {
+  render() {
+    const App = () => (
+      <div>
+        <Switch>
+          <Route exact path='/' component={Home}/>
+          <Route path='/list' component={List}/>
+        </Switch>
+      </div>
+    )
+    return (
+      <Switch>
+        <App/>
+      </Switch>
+    );
+  }
 }
 
 export default App;
+
