@@ -28,6 +28,7 @@ class UserAssetsItems extends Component {
 
 }
 
+
 //PropTypes
 UserAssetsItems.propTypes = {
     asset: PropTypes.object.isRequired
