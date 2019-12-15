@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './pages.css';
 
-class Home extends Component {
+class Homepage extends Component {
   render() {
     return (
     <div className="App">
@@ -46,4 +46,9 @@ class Home extends Component {
     );
   }
 }
-export default Home;
+
+//PropTypes
+Homepage.propTypes = {
+}
+
+export default Homepage;
