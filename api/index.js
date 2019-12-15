@@ -19,12 +19,17 @@ app.get('/api/addUser', (req,res) => {
     console.log('Send new user to register');
 });
 
+app.get('/api/addUser', (req,res) => {
+    var list = ["item1", "item2", "item3"];
+    res.json(list);
+    console.log('Send new user to register');
+});
 
-<Route path='/UserAdd' component={UserAdd}/>
-<Route path='/DeviceAdd' component={DeviceAdd}/>
-<Route path='/DataAdd' component={DataAdd}/>
-<Route path='/UserRead' component={UserRead}/>
-<Route path='/DataRead' component={DataRead}/>
+//<Route path='/UserAdd' component={UserAdd}/>
+//<Route path='/DeviceAdd' component={DeviceAdd}/>
+//<Route path='/DataAdd' component={DataAdd}/>
+//<Route path='/UserRead' component={UserRead}/>
+//<Route path='/DataRead' component={DataRead}/>
 
 
 // Handles any requests that don't match the ones above
