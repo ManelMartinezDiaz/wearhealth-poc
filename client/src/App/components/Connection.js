@@ -29,5 +29,6 @@ function search(query, cb) {
     return response.json();
   }
   
+  
   const Connection = { search, create };
   export default Connection;
