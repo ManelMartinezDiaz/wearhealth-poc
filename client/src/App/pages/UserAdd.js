@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import styles from './pages.css';
 
-class List extends Component {
+class UserAdd extends Component {
   // Initialize the state
   constructor(props){
     super(props);
@@ -11,12 +12,12 @@ class List extends Component {
 
   // Fetch the list on first mount
   componentDidMount() {
-    this.getList();
+    this.addUser();
   }
 
   // Retrieves the list of items from the Express app
   getList = () => {
-    fetch('/api/getList')
+    fetch('/api/addUser')
     .then(res => res.json())
     .then(list => this.setState({ list }))
   }
@@ -26,7 +27,7 @@ class List extends Component {
 
     return (
       <div className="App">
-        <h1>List of Items</h1>
+        <h1>User to register</h1>
         {/* Check to see if any items are found*/}
         {list.length ? (
           <div>
@@ -41,7 +42,7 @@ class List extends Component {
           </div>
         ) : (
           <div>
-            <h2>No List Items Found</h2>
+            <h2>No User to register</h2>
           </div>
         )
       }
@@ -50,4 +51,4 @@ class List extends Component {
   }
 }
 
-export default List;
+export default UserAdd;
