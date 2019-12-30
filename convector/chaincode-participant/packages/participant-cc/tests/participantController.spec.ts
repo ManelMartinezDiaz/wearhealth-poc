@@ -1,18 +1,15 @@
-import { join } from "path";
-import { MockControllerAdapter } from "@worldsibu/convector-adapter-mock";
-import {
-  ClientFactory,
-  ConvectorControllerClient
-} from "@worldsibu/convector-core";
-import "mocha";
-import * as chai from "chai";
-import { expect } from "chai";
-import * as chaiAsPromised from "chai-as-promised";
-import { Participant, ParticipantController } from "../src";
+import { join } from 'path';
+import { expect } from 'chai';
+import * as uuid from 'uuid/v4';
+import { MockControllerAdapter } from '@worldsibu/convector-adapter-mock';
+import { ClientFactory, ConvectorControllerClient } from '@worldsibu/convector-core';
+import 'mocha';
 
-describe("Participant", () => {
-  chai.use(chaiAsPromised);
+import { Participant, ParticipantController } from '../src';
+
+describe('Participant', () => {
   let mockAdapter: MockControllerAdapter;
+  let adapter: MockControllerAdapter;
   let participantCtrl: ConvectorControllerClient<ParticipantController>;
 
   const fakeParticipantCert =
@@ -50,19 +47,19 @@ describe("Participant", () => {
     "dkQIssMaMwkireuglUubT/Chee4jFgnhJqffnG+qCHs=\n" +
     "-----END CERTIFICATE-----\n";
 
-  beforeEach(async () => {
-    // Mocks the blockchain execution environment
-    mockAdapter = new MockControllerAdapter();
-    participantCtrl = ClientFactory(ParticipantController, mockAdapter);
 
-    await mockAdapter.init([
+  before(async () => {
+    // Mocks the blockchain execution environment
+    adapter = new MockControllerAdapter();
+    participantCtrl = ClientFactory(ParticipantController, adapter);
+
+    await adapter.init([
       {
-        version: "*",
-        controller: "ParticipantController",
-        name: join(__dirname, "..")
+        version: '*',
+        controller: 'ParticipantController',
+        name: join(__dirname, '..')
       }
     ]);
-    (mockAdapter.stub as any).usercert = fakeParticipantCert;
   });
 
   it("should create a participant", async () => {
@@ -70,102 +67,50 @@ describe("Participant", () => {
     await participantCtrl.register("Participant1", "Participant1Name");
  const participant1 = await participantCtrl
 . getParticipantById      ("Participant1")
-.then      (result => { {
+.then      (result => { 
  return new Participant(result);
         });
      expect(participant1).to.include({
        id: "Participant1",
        name: "Participant1Name",
        msp: "dummymspId",
-       x509Fingerprint:
- "01:46:C7:C0:C0:A7:11:11:54:33:7F:19:31:7B:7B:9D:66:DC:07:35:FF:28:57"
+       identities: {fingerprint: 'X' , status: true}      
+       //identities: [{"fingerprint": "B6:0B:37:7C:DF:D2:7A:08:0B:98:BF:52:A4:2C:DC:4E:CC:70:91:E1","status":true}]
       });
   });
- 
-  it("should fail to create a participant with an existing id", async () => {
- //     CareerAdvisorParticipant
-     await participantCtrl.register("Participant1", "Participant1Name");
- const participant1 = await participantCtrl
-. getParticipantById      ("Participant1")
-.then      (result => { {
- return new Participant(result);
-        });
-     expect(participant1).to.include({
-       id: "Participant1",
-       name: "Participant1Name",
-       msp: "dummymspId",
-       x509Fingerprint:
- "01:46:C7:C0:C0:A7:11:11:54:33:7F:19:31:7B:7B:9D:66:DC:07:35:FF:28:57"
-      });
- 
-     await expect(
-       participantCtrl
-. register        ("Participant1", "Participant1Name")
-.catch        (ex => ex.responses[0].error.message)
-).    to.be.eventually.equal(
-        'a participant already exists with the id "Participant1"'
-      );
-  });
- 
-  it("should fail to change the active identity of a participant because the caller is not admin", async () => {
- //Create     Participant
- //Create     Participant
-     await participantCtrl.register("Participant1", "Participant1Name");
- 
- const participant1 = await participantCtrl
-. getParticipantById      ("Participant1")
-.then      (result => { {
- return new Participant(result);
-        });
-     expect(participant1).to.include({
-       id: "Participant1",
-       name: "Participant1Name",
-       x509Fingerprint:
- "01:46:C7:C0:C0:A7:11:11:54:33:7F:19:31:7B:7B:9D:66:DC:07:35:FF:28:57"
-      });
-      // Try to change identity of Participant
-     await expect(
-       participantCtrl
-.changeIdentity        (
- "Participant1",
- "56:74:69:D7:D7:C5:A4:A4:C5:2D:4B:7B:7B:27:A9:6A:A8:6A:C9:26:FF:8B:82"
-          )
-.catch        (ex => ex.responses[0].error.message)
-      ).to.be.eventually.eql("Unauthorized. Requester identity is not an admin"); // Change identity of Participant
-  });
- 
+
   it("should change the active identity of a participant", async () => {
- //Create     Participant
-     await participantCtrl.register("Participant1", "Participant1Name");
- 
- const participant1 = await participantCtrl
-. getParticipantById      ("Participant1")
-.then      (result => { {
- return new Participant(result);
-        });
-     expect(participant1).to.include({
-       id: "Participant1",
-       name: "Participant1Name",
-       x509Fingerprint:
- "01:46:C7:C0:C0:A7:11:11:54:33:7F:19:31:7B:7B:9D:66:DC:07:35:FF:28:57"
-      });
-      // Change identity of Participant
-      // admin identity is required to change the idendity of a participant
- (mockAdapter    .stub as any).usercert = fakeAdminCert;
-     await participantCtrl.changeIdentity(
- "Participant1",
- "56:74:69:D7:D7:C5:A4:A4:C5:2D:4B:7B:7B:27:A9:6A:A8:6A:C9:26:FF:8B:82"
-      );
- const participant1Updated = await participantCtrl
-. getParticipantById      ("Participant1")
-.then      (result => { {
- return new Participant(result);
-        });
-     expect(participant1Updated).to.include({
-       id: "Participant1",
-       name: "Participant1Name",
-       x509Fingerprint:
- "56:74:69:D7:D7:C5:A4:A4:C5:2D:4B:7B:7B:27:A9:6A:A8:6A:C9:26:FF:8B:82"
-      });
-  });
- });
+    //Create     Participant2
+        await participantCtrl.register("Participant2", "Participant2Name");
+    
+    const participant2 = await participantCtrl
+   . getParticipantById      ("Participant2")
+   .then      (result => {
+    return new Participant(result);
+           });
+        expect(participant2).to.include({
+          id: "Participant2",
+          name: "Participant2Name",
+          x509Fingerprint:
+    "01:46:C7:C0:C0:A7:11:11:54:33:7F:19:31:7B:7B:9D:66:DC:07:35:FF:28:57"
+         });
+         // Change identity of Participant
+         // admin identity is required to change the idendity of a participant
+    (mockAdapter.stub as any).usercert = fakeAdminCert;
+        await participantCtrl.changeIdentity(
+    "Participant2",
+    "56:74:69:D7:D7:C5:A4:A4:C5:2D:4B:7B:7B:27:A9:6A:A8:6A:C9:26:FF:8B:82"
+         );
+
+         const participant2Updated = await participantCtrl
+         . getParticipantById      ("Participant2")
+         .then      (result => {
+          return new Participant(result);
+                 });
+              expect(participant2Updated).to.include({
+                id: "Participant2",
+                name: "Participant2Name"
+              //  x509Fingerprint: "56:74:69:D7:D7:C5:A4:A4:C5:2D:4B:7B:7B:27:A9:6A:A8:6A:C9:26:FF:8B:82" 
+              });
+           });
+          });
