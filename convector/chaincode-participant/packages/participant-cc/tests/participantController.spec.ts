@@ -12,6 +12,9 @@ describe('Participant', () => {
   let adapter: MockControllerAdapter;
   let participantCtrl: ConvectorControllerClient<ParticipantController>;
 
+  const fakeFingerprint1 = "B6:0B:37:7C:DF:D2:7A:08:0B:98:BF:52:A4:2C:DC:4E:CC:70:91:E1";
+  const fakeFingerprint2 = "56:74:69:D7:D7:C5:A4:A4:C5:2D:4B:7B:7B:27:A9:6A:A8:6A:C9:26:FF:8B:82";
+
   const fakeParticipantCert =
     "-----BEGIN CERTIFICATE-----\n" +
     "MIICKDCCAc6gAwIBAgIRAKpIbs0yLYy65JIrr9irtugwCgYIKoZIzj0EAwIwcTEL\n" +
@@ -62,6 +65,16 @@ describe('Participant', () => {
     ]);
   });
 
+  it("should create a default model", async () => {
+    const id = uuid();
+    await participantCtrl.register(id, 'Test Participant');
+
+    const justSavedModel = await adapter.getById<Participant>(id);
+
+    expect(justSavedModel.id).to.exist;
+  });
+
+
   it("should create a participant", async () => {
     // CareerAdvisorParticipant
     await participantCtrl.register("Participant1", "Participant1Name");
@@ -70,14 +83,14 @@ describe('Participant', () => {
 .then      (result => { 
  return new Participant(result);
         });
-     expect(participant1).to.include({
-       id: "Participant1",
-       name: "Participant1Name",
-       msp: "dummymspId",
-       identities: {fingerprint: 'X' , status: true}      
-       //identities: [{"fingerprint": "B6:0B:37:7C:DF:D2:7A:08:0B:98:BF:52:A4:2C:DC:4E:CC:70:91:E1","status":true}]
-      });
+     expect(participant1).to.include(
+      {"id":"Participant1","type":"io.worldsibu.participant","name":"Participant1Name","msp":"dummymspId"}  
+     );
+     expect(participant1.identities).to.deep.members(
+      [{"fingerprint":fakeFingerprint1,"status":true}]
+     );
   });
+
 
   it("should change the active identity of a participant", async () => {
     //Create     Participant2
@@ -91,15 +104,16 @@ describe('Participant', () => {
         expect(participant2).to.include({
           id: "Participant2",
           name: "Participant2Name",
-          x509Fingerprint:
-    "01:46:C7:C0:C0:A7:11:11:54:33:7F:19:31:7B:7B:9D:66:DC:07:35:FF:28:57"
          });
+         expect(participant2.identities).to.deep.members(
+          [{"fingerprint":fakeFingerprint1,"status":true}]
+         );
          // Change identity of Participant
          // admin identity is required to change the idendity of a participant
-    (mockAdapter.stub as any).usercert = fakeAdminCert;
+    (adapter.stub as any).usercert = fakeAdminCert;
         await participantCtrl.changeIdentity(
     "Participant2",
-    "56:74:69:D7:D7:C5:A4:A4:C5:2D:4B:7B:7B:27:A9:6A:A8:6A:C9:26:FF:8B:82"
+    fakeFingerprint2
          );
 
          const participant2Updated = await participantCtrl
@@ -110,7 +124,17 @@ describe('Participant', () => {
               expect(participant2Updated).to.include({
                 id: "Participant2",
                 name: "Participant2Name"
-              //  x509Fingerprint: "56:74:69:D7:D7:C5:A4:A4:C5:2D:4B:7B:7B:27:A9:6A:A8:6A:C9:26:FF:8B:82" 
               });
+              expect(participant2.identities).to.deep.members(
+                [{"fingerprint":fakeFingerprint1,"status":true}]
+               );
+               expect(participant2Updated.identities).to.deep.members(
+                [
+                {"fingerprint":fakeFingerprint1,"status":false},
+                {"fingerprint":fakeFingerprint2,"status":true}
+                ]
+               );
            });
+
+
           });
