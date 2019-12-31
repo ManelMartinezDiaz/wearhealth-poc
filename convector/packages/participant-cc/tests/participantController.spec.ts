@@ -65,18 +65,9 @@ describe('Participant', () => {
     ]);
   });
 
-  it("should create a default model", async () => {
-    const id = uuid();
-    await participantCtrl.register(id, 'Test Participant');
 
-    const justSavedModel = await adapter.getById<Participant>(id);
-
-    expect(justSavedModel.id).to.exist;
-  });
-
-
-  it("should create a participant", async () => {
-    // CareerAdvisorParticipant
+  it("hauria de registrar un participant", async () => {
+    // Create rticipant1
     await participantCtrl.register("Participant1", "Participant1Name");
  const participant1 = await participantCtrl
 . getParticipantById      ("Participant1")
@@ -92,8 +83,21 @@ describe('Participant', () => {
   });
 
 
-  it("should change the active identity of a participant", async () => {
-    //Create     Participant2
+  it("hauria de llegir dades d'un participant registrat", async() => {
+  // Get participant1 information
+    await participantCtrl.getParticipantById("Participant1");
+    const participant1 = await participantCtrl
+    .getParticipantById("Participant1")
+    .then (result =>{
+      return new Participant(result);
+    });
+    expect(participant1).to.include(
+      {"id": "Participant1","name": "Participant1Name"}
+    );
+  });
+
+  it("Hauria de permetre modificar la identitat d'un participant si l'usuari té atribut admin", async () => {
+    //Create Participant2
         await participantCtrl.register("Participant2", "Participant2Name");
     
     const participant2 = await participantCtrl
