@@ -1,11 +1,14 @@
 import { join } from 'path';
 import { expect } from 'chai';
+import * as chaiAsPromised from 'chai-as-promised';
+import * as chai from 'chai';
 import * as uuid from 'uuid/v4';
 import { MockControllerAdapter } from '@worldsibu/convector-adapter-mock';
 import { ClientFactory, ConvectorControllerClient } from '@worldsibu/convector-core';
 import 'mocha';
 
 import { Participant, ParticipantController } from '../src';
+import { callbackify, error } from 'util';
 
 describe('Participant', () => {
   let mockAdapter: MockControllerAdapter;
@@ -67,7 +70,7 @@ describe('Participant', () => {
 
 
   it("hauria de registrar un participant", async () => {
-    // Create rticipant1
+    // Create participant1
     await participantCtrl.register("Participant1", "Participant1Name");
  const participant1 = await participantCtrl
 . getParticipantById      ("Participant1")
@@ -96,9 +99,24 @@ describe('Participant', () => {
     );
   });
 
+  it("no hauria de registrar un participant si existeix el id", async () => {
+    // Create participant1 ja existent
+    await participantCtrl.register("Participant1", "Participant1Name");
+    
+    const participant1 = new Participant({
+      id: "Participant1",
+      name: "Participant1Name"
+    });
+
+    //const participant1 = participantCtrl.register ("Participant1", "Participant1Name")});
+          
+    await expect(participant1).to.be.eventually.rejectedWith(Error);
+  
+  });
+
   it("Hauria de permetre modificar la identitat d'un participant si l'usuari té atribut admin", async () => {
     //Create Participant2
-        await participantCtrl.register("Participant2", "Participant2Name");
+    await participantCtrl.register("Participant2", "Participant2Name");
     
     const participant2 = await participantCtrl
    . getParticipantById      ("Participant2")
@@ -113,7 +131,7 @@ describe('Participant', () => {
           [{"fingerprint":fakeFingerprint1,"status":true}]
          );
          // Change identity of Participant
-         // admin identity is required to change the idendity of a participant
+         // the method check that an admin identity is required to change the idendity of a participant
     (adapter.stub as any).usercert = fakeAdminCert;
         await participantCtrl.changeIdentity(
     "Participant2",
