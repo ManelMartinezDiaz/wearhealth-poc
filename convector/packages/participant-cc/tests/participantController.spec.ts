@@ -106,7 +106,12 @@ describe('Participant', () => {
 
   });
 
-  it("Hauria de permetre modificar la identitat d'un participant si l'usuari té atribut admin", async () => {
+  it("no hauria de permetre canviar la identitat d'un participant si el participant no té atribut admin", async () => {
+    // Create participant1 ja existent
+    await rejects(participantCtrl.changeIdentity("Participant1",fakeFingerprint2));
+  });
+
+  it("Hauria de permetre modificar la identitat d'un participant si el participant té atribut admin", async () => {
     //Create Participant2
     await participantCtrl.register("Participant2", "Participant2Name");
     
@@ -126,8 +131,8 @@ describe('Participant', () => {
          // the method check that an admin identity is required to change the idendity of a participant
     (adapter.stub as any).usercert = fakeAdminCert;
         await participantCtrl.changeIdentity(
-    "Participant2",
-    fakeFingerprint2
+              "Participant2",
+              fakeFingerprint2
          );
 
          const participant2Updated = await participantCtrl
