@@ -9,6 +9,7 @@ import 'mocha';
 
 import { Participant, ParticipantController } from '../src';
 import { callbackify, error } from 'util';
+import { rejects } from 'assert';
 
 describe('Participant', () => {
   let mockAdapter: MockControllerAdapter;
@@ -101,17 +102,8 @@ describe('Participant', () => {
 
   it("no hauria de registrar un participant si existeix el id", async () => {
     // Create participant1 ja existent
-    await participantCtrl.register("Participant1", "Participant1Name");
-    
-    const participant1 = new Participant({
-      id: "Participant1",
-      name: "Participant1Name"
-    });
+    await rejects(participantCtrl.register("Participant1", "Participant1Name"));
 
-    //const participant1 = participantCtrl.register ("Participant1", "Participant1Name")});
-          
-    await expect(participant1).to.be.eventually.rejectedWith(Error);
-  
   });
 
   it("Hauria de permetre modificar la identitat d'un participant si l'usuari té atribut admin", async () => {
