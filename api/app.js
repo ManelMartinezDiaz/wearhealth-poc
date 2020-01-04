@@ -1,3 +1,7 @@
+import * as express from 'express';
+import * as bodyParser from 'body-parser';
+import { port as serverPort } from './env';
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -10,6 +14,8 @@ var usersRouter = require('./routes/users');
 //var app = express();
 
 const app = express();
+//const app: express.Application = express();
+const port = serverPort;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -52,7 +58,22 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-const port = process.env.PORT || 5000;
+
+app.use(bodyParser.urlencoded({
+  extended: true,
+  limit: '40mb'
+}));
+
+app.use(bodyParser.json({ limit: '40mb' }));
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  next();
+});
+
+//const port = process.env.PORT || 5000;
 app.listen(port);
 
 console.log('App is listening on port ' + port);
