@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './pages.css';
+//import UserAssets from './UserAssets'
 
 class Homepage extends Component {
   render() {

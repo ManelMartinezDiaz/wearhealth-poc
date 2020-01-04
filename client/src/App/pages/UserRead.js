@@ -15,18 +15,30 @@ class UserRead extends Component {
     this.readUser();
   }
 
+
+  callApi = async (a) => {
+    let response;
+    response = await fetch(`/api/random`);
+    const body = await response.json();    if (response.status !== 200) throw Error(body.message);    return body;
+};
+
+
   // Retrieves the list of items from the Express app
-  getList = () => {
-    fetch('/api/readUser')
-    .then(res => res.json())
-    .then(list => this.setState({ list }))
+  readUser(){
+    this.callApi()
+    .then(res => {
+//      let numero = res.number;
+      let list  = res.list;
+      this.setState({ list })
+    })
+    .catch(err => console.log(err));
   }
 
   render() {
     const { list } = this.state;
 
     return (
-      <div className="App">
+      <div className=".headerStyle">
         <h1>User to register</h1>
         {/* Check to see if any items are found*/}
         {list.length ? (

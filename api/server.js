@@ -65,7 +65,7 @@ app.get('/api/setOrganization', (req,res) => {
 
 // Handles any requests that don't match the ones above
 app.get('*', (req,res) =>{
-    res.sendFile(path.join('/home/manelmdiaz/wearhealth-poc/client/build/index.html'));
+    res.sendFile(path.join('/home/manelmdiaz/wearhealth-poc/client/public/index.html'));
 });
 
 const port = process.env.PORT || 5000;
