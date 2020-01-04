@@ -1,14 +1,10 @@
 import { join } from 'path';
 import { expect } from 'chai';
-import * as chaiAsPromised from 'chai-as-promised';
-import * as chai from 'chai';
-import * as uuid from 'uuid/v4';
 import { MockControllerAdapter } from '@worldsibu/convector-adapter-mock';
 import { ClientFactory, ConvectorControllerClient } from '@worldsibu/convector-core';
 import 'mocha';
 
 import { Participant, ParticipantController } from '../src';
-import { callbackify, error } from 'util';
 import { rejects } from 'assert';
 
 describe('Participant', () => {

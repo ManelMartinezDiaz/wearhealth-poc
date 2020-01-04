@@ -1,11 +1,11 @@
 import { join } from 'path';
 import { expect } from 'chai';
-import * as uuid from 'uuid/v4';
 import { MockControllerAdapter } from '@worldsibu/convector-adapter-mock';
 import { ClientFactory, ConvectorControllerClient } from '@worldsibu/convector-core';
 import 'mocha';
 
 import { Participant, ParticipantController } from '../src';
+import { rejects } from 'assert';
 
 describe('Participant', () => {
   let mockAdapter: MockControllerAdapter;
@@ -66,8 +66,8 @@ describe('Participant', () => {
   });
 
 
-  it("should create a participant", async () => {
-    // Create rticipant1
+  it("hauria de registrar un participant", async () => {
+    // Create participant1
     await participantCtrl.register("Participant1", "Participant1Name");
  const participant1 = await participantCtrl
 . getParticipantById      ("Participant1")
@@ -83,7 +83,7 @@ describe('Participant', () => {
   });
 
 
-  it("should get information about a participant", async() => {
+  it("hauria de llegir dades d'un participant registrat", async() => {
   // Get participant1 information
     await participantCtrl.getParticipantById("Participant1");
     const participant1 = await participantCtrl
@@ -92,13 +92,24 @@ describe('Participant', () => {
       return new Participant(result);
     });
     expect(participant1).to.include(
-      {"id": "participant1","name": "Participant1Name"}
+      {"id": "Participant1","name": "Participant1Name"}
     );
   });
 
-  it("should change the active identity of a participant", async () => {
+  it("no hauria de registrar un participant si existeix el id", async () => {
+    // Create participant1 ja existent
+    await rejects(participantCtrl.register("Participant1", "Participant1Name"));
+
+  });
+
+  it("no hauria de permetre canviar la identitat d'un participant si el participant no té atribut admin", async () => {
+    // Create participant1 ja existent
+    await rejects(participantCtrl.changeIdentity("Participant1",fakeFingerprint2));
+  });
+
+  it("Hauria de permetre modificar la identitat d'un participant si el participant té atribut admin", async () => {
     //Create Participant2
-        await participantCtrl.register("Participant2", "Participant2Name");
+    await participantCtrl.register("Participant2", "Participant2Name");
     
     const participant2 = await participantCtrl
    . getParticipantById      ("Participant2")
@@ -113,11 +124,11 @@ describe('Participant', () => {
           [{"fingerprint":fakeFingerprint1,"status":true}]
          );
          // Change identity of Participant
-         // admin identity is required to change the idendity of a participant
+         // the method check that an admin identity is required to change the idendity of a participant
     (adapter.stub as any).usercert = fakeAdminCert;
         await participantCtrl.changeIdentity(
-    "Participant2",
-    fakeFingerprint2
+              "Participant2",
+              fakeFingerprint2
          );
 
          const participant2Updated = await participantCtrl

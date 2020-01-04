@@ -10,12 +10,11 @@ class UserAdd extends Component {
     }
   }
 
-  // Fetch the list on first mount
   componentDidMount() {
     this.addUser();
   }
 
-  // Retrieves the list of items from the Express app
+  // Demana afegir usuari a la API
   getList = () => {
     fetch('/api/addUser')
     .then(res => res.json())
