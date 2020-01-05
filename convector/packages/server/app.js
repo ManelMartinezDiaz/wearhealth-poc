@@ -68,7 +68,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json({ limit: '40mb' }));
 
 app.use('/participant', ParticipantExpressController);
-app.use('/person', PersonExpressController);
+//app.use('/person', PersonExpressController);
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
