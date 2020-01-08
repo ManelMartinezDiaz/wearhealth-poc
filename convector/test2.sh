@@ -5,7 +5,7 @@ npm run cc:start -- participant
 
 # Start your web server
 #npx lerna run start --scope server --stream
-node ~/wearhealth-poc/api/server.js
+node ~/wearhealth-poc/server/server.js
 
 # Seed some participants
 hurl invoke participant participant_register gov "Big Government" -u admin
