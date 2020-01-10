@@ -25,7 +25,7 @@ app.get('/api/addDevice', (req,res) => {
 
 // An api endpoint that returns data of the user
 app.get('/api/readUser', (req,res) => {
-    var list = ["item1", "item2", "item3"];
+    var list = ["user1", "user2", "user3"];
     res.json(list);
     console.log('Sent list of items');
 });
@@ -61,7 +61,6 @@ app.get('/api/setOrganization', (req,res) => {
 //<Route path='/UserAdd' component={UserAdd}/>
 //<Route path='/DeviceAdd' component={DeviceAdd}/>
 //<Route path='/DataAdd' component={DataAdd}/>
-//<Route path='/UserRead' component={UserRead}/>
 //<Route path='/DataRead' component={DataRead}/>
 
 

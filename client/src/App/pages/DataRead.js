@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styles from './pages.css';
+import '../App.css';
 
 class DataRead extends Component {
   // Initialize the state

@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import styles from './pages.css';
+import '../App.css';
 
 class UserRead extends Component {
   // Initialize the state
   constructor(props){
     super(props);
     this.state = {
-      list: ['manel', 'manuel']
+      list: ['test', 'test']
     }
+    this.readUser = this.readUser.bind(this)
   }
 
   // Fetch the list on first mount
@@ -18,7 +19,7 @@ class UserRead extends Component {
 
   callApi = async (a) => {
     let response;
-    response = await fetch(`/api/random`);
+    response = await fetch('/api/readUser');
     const body = await response.json();    if (response.status !== 200) throw Error(body.message);    return body;
 };
 
@@ -29,7 +30,7 @@ class UserRead extends Component {
     .then(res => {
 //      let numero = res.number;
       let list  = res.list;
-      this.setState({ list })
+      this.setState({ list})
     })
     .catch(err => console.log(err));
   }
@@ -38,7 +39,7 @@ class UserRead extends Component {
     const { list } = this.state;
 
     return (
-      <div className=".headerStyle">
+      <div className=".App-header">
         <h1>User to register</h1>
         {/* Check to see if any items are found*/}
         {list.length ? (

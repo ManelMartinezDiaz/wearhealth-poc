@@ -21,6 +21,23 @@
   .App-intro {
     font-size: large;
   }
+
+
+.headerStyle {
+  background: '#333';
+  color: '#fff';
+  text-align: right;
+  padding: '10px';
+}
+
+.linkStyle {
+  color: '#fff';
+  text-decoration: 'none';
+}
+
+.titleStyle {
+  text-align: left;
+}
   
   @keyframes App-logo-spin {
     from { transform: rotate(0deg); }

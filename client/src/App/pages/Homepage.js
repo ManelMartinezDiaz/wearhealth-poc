@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import styles from './pages.css';
-//import UserAssets from './UserAssets'
+import '../App.css';
 
 class Homepage extends Component {
   render() {
     return (
     <div className="App">
-      <h1 className={styles.headerStyle} >Wearing Health</h1>
+      <h1 className=".headerStyle" >Wearing Health</h1>
       {/* Link to User.js */}
       <Link to={'./UserAdd'}>
         <button variant="raised">
