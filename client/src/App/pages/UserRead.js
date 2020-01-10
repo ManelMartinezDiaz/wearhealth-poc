@@ -6,7 +6,7 @@ class UserRead extends Component {
   constructor(props){
     super(props);
     this.state = {
-      list: ['test', 'test']
+      user: []
     }
     this.readUser = this.readUser.bind(this)
   }
@@ -28,24 +28,23 @@ class UserRead extends Component {
   readUser(){
     this.callApi()
     .then(res => {
-//      let numero = res.number;
-      let list  = res.list;
-      this.setState({ list})
+        let user = res;
+      this.setState({user: res});
     })
     .catch(err => console.log(err));
   }
 
   render() {
-    const { list } = this.state;
+    const { user } = this.state;
 
     return (
       <div className=".App-header">
         <h1>User to register</h1>
         {/* Check to see if any items are found*/}
-        {list.length ? (
+        {user.length ? (
           <div>
             {/* Render the list of items */}
-            {list.map((item) => {
+            {user.map((item) => {
               return(
                 <div>
                   {item}

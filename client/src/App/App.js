@@ -13,7 +13,7 @@ class App extends Component {
 
   state = {
     name: "joe",
-    assets: [],
+    list: [],
     user: {}
   }
 
