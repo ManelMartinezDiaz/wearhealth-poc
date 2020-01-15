@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"name": "wearhealth-poc",
+			"path": "."
+		}
+	],
+	"settings": {
+		"git.ignoreLimitWarning": true
+	}
+}
