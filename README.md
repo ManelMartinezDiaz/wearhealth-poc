@@ -1,5 +1,8 @@
 # wearhealth-poc
 
+Este es el repositorio para la PoC del trabajo final de Master.
+
+Se compone de un cliente, servidor API i SDK Convector para Hyperledger Fabric.
 
 
 
