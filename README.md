@@ -6,6 +6,7 @@ Trabajo final de Master 'Aplicación descentralitzada de monitorización de salu
 
   Consiste en un cliente web (React), un servidor API (Nodejs+Express) y un Chaincode/Smart Contract que se ejecutarà sobre  Hyperledger Fabric (Convector Smart Contract+Hurley). Se ha realizado un desarrollado parcialmente para conocer el funcionamiento de Hyperledger Fabric y validar el funcionamiento entre los componentes del sistema.
 
+https://raw.githubusercontent.com/ManelMartinezDiaz/wearhealt-poc/master/assets/Esquema_HLD.png
 
 2. Instalación:
 
