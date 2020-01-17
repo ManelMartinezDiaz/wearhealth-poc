@@ -1,8 +1,7 @@
-# wearhealth-poc
+Trabajo final de Master 'Aplicación descentralitzada de monitorización de salud a través de wearables'
 
 1. Que soy?
-  Trabajo final de Master 'Aplicación descentralitzada de monitorización de salud a través de wearables'.
-
+  
   Este es el repositorio de la PoC del trabajo final del 'Màster Universitari en Enginyeria Informàtica' de la Universitat Oberta de Catalunya'.
 
   Consiste en un cliente web (React), un servidor API (Nodejs+Express) y un Chaincode/Smart Contract que se ejecutarà sobre  Hyperledger Fabric (Convector Smart Contract+Hurley). Se ha realizado un desarrollado parcialmente para conocer el funcionamiento de Hyperledger Fabric y validar el funcionamiento entre los componentes del sistema.
