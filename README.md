@@ -18,7 +18,7 @@ Trabajo final de Master 'Aplicación descentralitzada de monitorización de salu
 
   2.2 Cliente + Servidor API + Chaincode (Smart Contract)
   
-  Empezamos clonando este repositorio para después instalar las dependèncias y Convector Smart Contract y Hurley.
+  Clonamos este repositorio para después instalar las dependencias, Convector Smart Contract y Hurley.
 
     Cliente web- React
       Instalamos dependencias:
@@ -27,7 +27,7 @@ Trabajo final de Master 'Aplicación descentralitzada de monitorización de salu
 
     Servidor API - Nodejs + Express
       Instalamos dependencias:
-      manelmdiaz@desktop-i7-linux:~/wearhealth-poc$ cd api
+      manelmdiaz@desktop-i7-linux:~/wearhealth-poc$ cd servidor
       manelmdiaz@desktop-i7-linux:~/wearhealth-poc/servidor$ npm install
 
     Convector Smart Contract y Hurley
@@ -45,7 +45,7 @@ Trabajo final de Master 'Aplicación descentralitzada de monitorización de salu
       Creamos el chaincode a partir de estos dos ficheros
       manelmdiaz@desktop-i7-linux:~/wearhealth-poc/convector$ npm run cc:package -- participant org1
       
-  Ya està listo todo para hacer las pruebas.
+  Todo listo para hacer las pruebas.
 
 3. Pruebas
 
